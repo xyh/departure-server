@@ -1,0 +1,6 @@
+database:
+  host:             troup.mongohq.com
+  port:             10059
+  username:         xuyuhang
+  password:         xuyuhang
+  databaseName:     departure

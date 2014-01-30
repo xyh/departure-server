@@ -1,0 +1,25 @@
+{
+    "database": {
+        "host":             "troup.mongohq.com",
+        "port":             10059,
+        "username":         "xuyuhang",
+        "password":         "xuyuhang",
+        "databaseName":     "departure"
+    },
+    
+    "realtime511": {
+        "token":            "993706be-5332-4252-bd04-a42b6ca5415e",
+        "baseURL":          "http://services.my511.org/Transit2.0/"
+    },
+  
+    "cronjob": {
+        "jobs": [
+            {
+                "name":     "agencies", 
+                "pattern":  "0 0 * * * *", 
+                "order":    1
+            }    
+        ]
+    }
+}
+  
