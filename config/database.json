@@ -1,0 +1,9 @@
+
+{
+  "dev": {
+    "driver": "mysql",
+      "user": "root",
+      "host": "localhost",
+      "database": "departure"
+  }
+}

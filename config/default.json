@@ -1,11 +1,11 @@
 {
   "database": {
-    "type": "mongodb",
+    "type": "mysql",
     "info": {
-      "host": "widmore.mongohq.com",
-      "port": 10000,
-      "username": "xuyuhang",
-      "password": "xuyuhang",
+      "host": "localhost",
+      "port": 3306,
+      "username": "root",
+      "password": "",
       "databaseName": "departure"
     }
   },
