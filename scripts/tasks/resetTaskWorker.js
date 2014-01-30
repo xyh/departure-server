@@ -20,6 +20,11 @@ var run = function (params, callback) {
           db.collection('route').drop(function(err, done) {
             callback(err);
           });
+        },
+        function(callback){
+          db.collection('stop').drop(function(err, done) {
+            callback(err);
+          });
         }
       ],
       function(err, results){
@@ -33,3 +38,4 @@ var run = function (params, callback) {
 }
 
 exports.run = run;
+exports.name = 'reset';

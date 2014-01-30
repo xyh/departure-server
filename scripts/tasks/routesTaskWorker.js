@@ -76,10 +76,9 @@ var updateRoutesForAgencies = function(agencies, db, callback) {
           var routes = agencyProperties['RouteList'][0]['Route'];
           async.each(routes, function(route, callback) {
             if (route && route['$']) {
-              var routeObject = { agency: agency._id };
+              var routeObject = { agency: agency._id, agencyName: agency.name, hasDirection: agency.hasDirection };
               routeObject.name = route['$']['Name'];
               routeObject.code = route['$']['Code'];
-              routeObject.hasDirection = agency.hasDirection;
               if (routeObject.hasDirection
                 && route['RouteDirectionList']
                 && route['RouteDirectionList'][0]
@@ -114,3 +113,4 @@ var updateRoutesForAgencies = function(agencies, db, callback) {
 }
 
 exports.run = run;
+exports.name = 'routes';

@@ -22,16 +22,16 @@
 
   "cronjob": {
     "sync": [
-//      {
-//        "name": "agencies",
-//        "pattern": "0 0 * * * *",
-//        "order": 1
-//      },
-//      {
-//        "name": "routes",
-//        "pattern": "0 0 * * * *",
-//        "order": 1
-//      },
+      {
+        "name": "agencies",
+        "pattern": "0 0 * * * *",
+        "order": 1
+      },
+      {
+        "name": "routes",
+        "pattern": "0 0 * * * *",
+        "order": 1
+      },
       {
         "name": "stops",
         "pattern": "0 0 * * * *",

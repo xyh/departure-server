@@ -16,23 +16,25 @@ console.log('Tasks read: \n' + JSON.stringify(tasks));
 var workerQueue = [];
 var runningJob = false;
 var checkWorkerQueue = function() {
-  process.nextTick(function() {
-    console.log('Checking worker queue: there are ' + workerQueue.length + ' worker waiting. Running job? ' + runningJob);
-    if (workerQueue.length > 0 && !runningJob) {
-      console.log('Start running job...');
-      runningJob = true;
-      var worker = workerQueue[0];
-      workerQueue.shift();
-      worker.run(null, function() {
-        setTimeout(function(){
-          runningJob = false;
-          checkWorkerQueue();
-        }, 3000);
-      });
-    } else {
-      console.log('No worker current, sleep...');
-    }
-  });
+  setTimeout(function(){
+    process.nextTick(function() {
+      console.log('Checking worker queue: there are ' + workerQueue.length + ' worker waiting. Running job? ' + runningJob);
+      if (workerQueue.length > 0 && !runningJob) {
+        runningJob = true;
+        var worker = workerQueue[0];
+        workerQueue.shift();
+        console.log('\n======\nStart running job [' + worker.name + ']...');
+        worker.run(null, function() {
+            runningJob = false;
+            checkWorkerQueue();
+        });
+      } else if (workerQueue.length <= 0) {
+        console.log('No worker current, sleep...');
+      } else {
+        console.log('A worker is currently running, wait...');
+      }
+    });
+  }, 3000);
 }
 
 /* set up cron job */

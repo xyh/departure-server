@@ -32,7 +32,7 @@ var run = function (params, callback) {
                 if (agencyProperties && agencyProperties['$']) {
                   var agency = {};
                   agency.name = agencyProperties['$']['Name'];
-                  agency.hasDirection = agencyProperties['$']['HasDirection'];
+                  agency.hasDirection = (agencyProperties['$']['HasDirection'] == "True" ) ? true : false;
                   agency.mode = agencyProperties['$']['Mode'];
                   console.log('Upserting data: ' + JSON.stringify(agency));
                   db.collection('agency').update({name: agency.name}, agency, {safe: true, upsert: true}, function(err, objects) {
@@ -62,3 +62,4 @@ var run = function (params, callback) {
 }
 
 exports.run = run;
+exports.name = 'agencies';
