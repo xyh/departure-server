@@ -12,6 +12,13 @@ Both client side and server side code are in the same repository: departure-serv
 
 3. SPA: I use AngularJS as the framework because I'm familiar with it so it's a good idea to use it for a prototype. 
 
+## Feature
+
+1. At the beginning the app will ask for permission to get user's location. If get user's location successfully, the map will move to that point and get nearby departure times. However, the user can refresh nearby departure info anytime on any area of the map by just click on the "Re-search current area" button at left bottom corner. 
+
+2. User can also toggle Bus/Train Stops that currently doesn't have any departure time info. 
+
+3. User can type in the search field and the Stops info will be filtered accordingly.
 
 ## Things need to improve
 
