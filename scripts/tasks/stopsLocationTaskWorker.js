@@ -84,8 +84,8 @@ var updateStopLocation = function(stop, callback) {
         console.log('Geocoding callback {' + queryAddress + '} failed with err ' + err);
         callback();
       }
-    }, false, '38.283469,-123.203831|37.180014,-121.451511', 'us');
-  }, 1000);
+    }, false, '39.419221,-124.103279|37.256566,-120.026493', 'us');
+  }, 200);
 }
 
 exports.run = run;
