@@ -28,7 +28,7 @@ var run = function (params, callback) {
               callback();
             } else {
               async.eachSeries(stops, function(stop, callback) {
-                if (!stop.location) {
+                if (!stop.latitude) {
                   console.log("Updating location for stop " + stop.name);
                   updateStopLocation(stop, callback);
                 } else {
@@ -63,7 +63,8 @@ var updateStopLocation = function(stop, callback) {
           // just use the first result
           var coordinates = data.results[0].geometry.location;
           console.log('Stop ' + stop.name + ' location is ' + JSON.stringify(coordinates));
-          stop.location = [coordinates.lat, coordinates.lng];
+          stop.latitude = coordinates.lat;
+          stop.longitude = coordinates.lng;
           dbClinet.connect(function(err, db) {
             if (!err) {
               db.collection('stop').update({ name: stop.name, stopCode: stop.stopCode}, stop, {safe: true, upsert: true}, function(err, objects) {
@@ -84,7 +85,7 @@ var updateStopLocation = function(stop, callback) {
         callback();
       }
     }, false, '38.283469,-123.203831|37.180014,-121.451511', 'us');
-  }, 500);
+  }, 1000);
 }
 
 exports.run = run;
