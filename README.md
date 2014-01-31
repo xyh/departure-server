@@ -22,7 +22,7 @@ Both client side and server side code are in the same repository: departure-serv
 
 ## Things need to improve
 
-1. Geocoding all the stops. Currently there are ~10000 stops but Google geocoding api has it's usage cap (~2500 per day). So now there are only ~5000 stops have their geolocation. I tried Mapquest which doesn't have usage cap but some how it doesn't give me accurate enough result as Google does. 
+1. Geocoding all the stops. Currently there are ~10000 stops but Google geocoding api has it's usage cap (~2500 per day). So now there are only ~6400 stops have their geolocation. I tried Mapquest which doesn't have usage cap but some how it doesn't give me accurate enough result as Google does. 
 
 2. Build automation test. 
 
