@@ -30,6 +30,10 @@ Both client side and server side code are in the same repository: departure-serv
 
 4. Better way to manage MongoDB connection.
 
+5. Frontend file uglify, concatenate & compress in order to speed up the page loading time.
+
+6. Optimize AngularJS code to increase web page performace.
+
 ## My other open source project
 
 1. YXLocationPicker: https://github.com/xyh/YXLocationPicker. It is very easy to use library I wrote for myself because while I was working on iOS project, there always a need to let user "pick" an location. It can retrieve the location user want to input through address inputting with autocompletion and suggestion, or pin to the right location on map, or combination of both. And it will return both address (as a string) and a location (as a coordinate).
