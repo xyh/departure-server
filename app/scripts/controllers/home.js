@@ -25,7 +25,7 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
   $scope.currentLocationMarker = new google.maps.Marker({
     position: currentGeolocation.googleLatLng()
   });
-  $scope.currentLocationMarker.setDraggable(true);
+  $scope.currentLocationMarker.setDraggable(false);
   $scope.currentLocationMarker.setMap($scope.map);
 
   $scope.$watch('searchText', function(newValue) {
@@ -111,7 +111,7 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
         map: $scope.map,
         icon: '/app/images/' + stop.agencyEntry.mode.toLowerCase() + '-marker-icon.png'
       });
-      stopMarker.setDraggable(true);
+      stopMarker.setDraggable(false);
       stopMarker.setMap($scope.map);
       stopMarker.setTitle(stop.stopCode);
       $scope.ui.markers.push(stopMarker);
