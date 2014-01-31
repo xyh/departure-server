@@ -10,3 +10,4 @@ if (dbSetting && dbSetting.type && !database) {
 }
 
 exports.connect = database.connect;
+exports.id = database.id;

@@ -92,7 +92,7 @@ var updateStopFromApiResults = function(error, response, body, route, callback) 
           var routeJson = result.RTT.AgencyList[0].Agency[0].RouteList[0].Route[0];
           if (!route.hasDirection) {
             if (routeJson.StopList && routeJson.StopList.length > 0 && routeJson.StopList[0].Stop) {
-              updateStopInStopsJson(routeJson.StopList[0].Stop, route._id, route.agency, callback);
+              updateStopInStopsJson(routeJson.StopList[0].Stop, route, callback);
             } else {
               callback('Unexpected stops result structure.');
             }
@@ -104,7 +104,7 @@ var updateStopFromApiResults = function(error, response, body, route, callback) 
               && routeJson.RouteDirectionList[0].RouteDirection[0].StopList
               && routeJson.RouteDirectionList[0].RouteDirection[0].StopList.length > 0
               && routeJson.RouteDirectionList[0].RouteDirection[0].StopList[0].Stop) {
-              updateStopInStopsJson(routeJson.RouteDirectionList[0].RouteDirection[0].StopList[0].Stop, route._id, route.agency, callback);
+              updateStopInStopsJson(routeJson.RouteDirectionList[0].RouteDirection[0].StopList[0].Stop, route, callback);
             } else {
               callback('Unexpected stops result structure.');
             }
@@ -121,14 +121,15 @@ var updateStopFromApiResults = function(error, response, body, route, callback) 
   }
 }
 
-var updateStopInStopsJson = function(stopsJson, routeId, agencyId, callback) {
+var updateStopInStopsJson = function(stopsJson, route, callback) {
   async.each(stopsJson, function(stopJson, callback){
     if (stopJson['$'] && stopJson['$'].name && stopJson['$'].StopCode) {
       var stop = {
         name: stopJson['$'].name,
         stopCode: stopJson['$'].StopCode,
-        route: routeId,
-        agency: agencyId
+        route: route._id,
+        agency: route.agency,
+        agencyName: route.agencyName
       };
       dbClinet.connect(function(err, db) {
         if (!err) {

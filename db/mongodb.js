@@ -2,6 +2,7 @@
  * Created by xuyuhang on 1/29/14.
  */
 var MongoClient = require('mongodb').MongoClient;
+var BSON = require('mongodb').BSONPure;
 var database = require('config').database;
 var settings = (database) ? database.info : undefined;
 var myDb;
@@ -29,4 +30,9 @@ function connect(callback) {
   }
 }
 
+function id(idString) {
+  return new BSON.ObjectID(idString);
+}
+
 exports.connect = connect;
+exports.id = id;
