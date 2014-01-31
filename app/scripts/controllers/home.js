@@ -23,7 +23,7 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
     cfpLoadingBar.start();
 
 //    $scope.freshNearbyStops();
-
+    $scope.notification = 'Start detecting your position...';
     geolocation
       .getLocation()
       .then(function(data){
@@ -31,10 +31,11 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
         $scope.map.panTo(currentGeolocation.googleLatLng());
         $scope.currentLocationMarker.setPosition(currentGeolocation.googleLatLng());
         cfpLoadingBar.complete();
+        $scope.notification = 'Successfully get your position...';
         $scope.freshNearbyStops();
         $scope.safeApply();
       }, function(reason) {
-        console.log('cannot get current location, reason: ' + reason);
+        $scope.notification = 'Cannot get current location, reason: ' + reason;
         cfpLoadingBar.complete();
         $scope.safeApply();
       });
@@ -42,6 +43,7 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
 
   $scope.freshNearbyStops = function() {
     $scope.showQueryAreaButton = false;
+    $scope.notification = 'Refreshing nearby stops...';
     $scope.safeApply();
 
     var url = '/stops?near=1&lat=' + $scope.map.getCenter().lat()
@@ -57,8 +59,10 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
         });
         $scope.freshDepartureTimeOfNearbyStops();
         $scope.setupMarkerForNearbyStops();
+        $scope.notification = 'Successfully get nearby stops info!';
       }).
       error(function(data, status, headers, config) {
+        $scope.notification = 'Failed to get nearby stops info...';
       });
   }
 

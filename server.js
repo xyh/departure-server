@@ -26,7 +26,7 @@ app.configure('development', function () {
 });
 
 app.get('/', function(req, res, next) {
-  res.end("Hello, this is rest api service.");
+  res.redirect('/app');
 });
 
 app.use("/app", express.static(__dirname + "/app"));

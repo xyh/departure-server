@@ -7,7 +7,7 @@
 angular.module('departureStaticsApp').run(function ($rootScope) {
 
   $rootScope.nearbyStops = [];
-
+  $rootScope.notification = 'Hello, this is a real-time public transit departure time query app.';
 
   $rootScope.realtime511 = {
     token: '993706be-5332-4252-bd04-a42b6ca5415e'
