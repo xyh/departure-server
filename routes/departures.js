@@ -13,7 +13,6 @@ var dbClinet = require('../db');
 
 exports.getNextDepaturesByStopCode = function(req, res) {
   var stopCode = req.query.stopCode;
-  console.log('Get departures by stop code ' + stopCode);
   if (stopCode) {
     var options = {
       url: realtime511.baseURL + realtime511.endPoints.getNextDeparturesByStopCode,

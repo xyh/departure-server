@@ -49,17 +49,22 @@ exports.findAll = function(req, res) {
   // include agency
   var includeAgency = req.query.includeAgency;
 
+  console.log('Start query all stops...' + new Date());
   dbClinet.connect(function(err, db) {
     if (!err && db) {
+      console.log('Getting all stops... ' + new Date());
       db.collection('stop').find(qs).skip(skip).limit(limit).toArray(function(err, docs) {
+        console.log('Got all stops with docs ' + JSON.stringify(docs) + ' and err ' + err + '. ' + new Date());
         if (!err && docs) {
           if (includeAgency) {
             async.each(docs, function(doc, callback) {
               db.collection('agency').findOne({_id:doc.agency}, function(err, agency) {
+                console.log('Finish one subquery. ' + new Date());
                 if (!err) doc.agencyEntry = agency;
                 callback();
               })
             }, function(err) {
+              console.log('All sub query finished. ' + new Date());
               res.end(JSON.stringify(docs));
             })
           } else {
