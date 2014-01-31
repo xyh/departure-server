@@ -18,7 +18,7 @@
     <div id="map_canvas" class="map" style="position: fixed; width: 100%; height: 100%;"></div>
 
     <div id="infoBoard" ng-show="nearbyStops">
-      <div ng-repeat="nearbyStop in nearbyStops" >
+      <div ng-repeat="nearbyStop in nearbyStops | filter:searchText" >
         <div class="stop-cell" id="stopCell{{nearbyStop.stopCode}}" ng-show="stopHasAvailableDepartureTimes(nearbyStop)||settings.showStopsWithNoDepartureTimes">
           <div class="stop-cell-internal" ng-mouseenter="mouseEnterStopCell(nearbyStop)" ng-mouseleave="mouseLeaveStopCell(nearbyStop)">
 
@@ -62,6 +62,7 @@
           ng-show="settings.showStopsWithNoDepartureTimes">Hide stops with no departure time</button>
       <button type="button" class="btn btn-primary" ng-click="settings.showStopsWithNoDepartureTimes=true"
               ng-show="!settings.showStopsWithNoDepartureTimes">Show stops with no departure time</button>
+      <input type="text" class="form-control" ng-model="searchText" placeholder="Search" style="margin-bottom: 0;">
     </div>
   </div>
 

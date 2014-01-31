@@ -1,6 +1,16 @@
-angular.module('departureStaticsApp').controller('HomeCtrl', ['$scope', 'cfpLoadingBar', 'geolocation', 'currentGeolocation', '$http', controller]);
+/**
+ * Created by xuyuhang on 1/28/14.
+ */
 
-function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $http) {
+'use strict';
+
+angular.module('departureStaticsApp').controller('HomeCtrl', ['$scope', 'cfpLoadingBar', 'geolocation', 'currentGeolocation', '$http', 'filterFilter', controller]);
+
+function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $http, filterFilter) {
+
+  $scope.ui = {
+    markers: []
+  };
 
   $scope.settings = {
     showStopsWithNoDepartureTimes: true
@@ -18,6 +28,9 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
   $scope.currentLocationMarker.setDraggable(true);
   $scope.currentLocationMarker.setMap($scope.map);
 
+  $scope.$watch('searchText', function(newValue) {
+    $scope.refreshMarkersVisibilities(newValue);
+  }, true);
 
   $scope.initialize = function() {
     cfpLoadingBar.start();
@@ -100,14 +113,13 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
       });
       stopMarker.setDraggable(true);
       stopMarker.setMap($scope.map);
-      stopMarker.setTitle(stop.name);
-      stop.ui = stop.ui || {};
-      stop.ui.marker = stopMarker;
+      stopMarker.setTitle(stop.stopCode);
+      $scope.ui.markers.push(stopMarker);
 
       google.maps.event.addListener(stopMarker, 'mouseover', function() {
         var hightlightedStop;
         for (var i = 0; i < $scope.nearbyStops.length; i++) {
-          if ($scope.nearbyStops[i].ui && $scope.nearbyStops[i].ui.marker == this) {
+          if ($scope.nearbyStops[i].stopCode && $scope.nearbyStops[i].stopCode == this.getTitle()) {
             hightlightedStop = $scope.nearbyStops[i];
           }
         }
@@ -121,7 +133,7 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
       google.maps.event.addListener(stopMarker, 'mouseout', function() {
         var hightlightedStop;
         for (var i = 0; i < $scope.nearbyStops.length; i++) {
-          if ($scope.nearbyStops[i].ui && $scope.nearbyStops[i].ui.marker == this) {
+          if ($scope.nearbyStops[i].stopCode && $scope.nearbyStops[i].stopCode == this.getTitle()) {
             hightlightedStop = $scope.nearbyStops[i];
           }
         }
@@ -129,16 +141,29 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
           $scope.dehighlightStopMark(hightlightedStop);
         }
       });
+
+      $scope.refreshMarkersVisibilities();
+    }
+  }
+
+  $scope.refreshMarkersVisibilities = function(searchText) {
+    var filteredStops = filterFilter($scope.nearbyStops, searchText || $scope.searchText);
+    for (var i = 0; i < $scope.ui.markers.length; i++) {
+      if (_.contains(filteredStops, $scope.nearbyStops[i])) {
+        $scope.ui.markers[i].setVisible(true);
+      } else {
+        $scope.ui.markers[i].setVisible(false);
+      }
     }
   }
 
   $scope.clearAllMarkers = function() {
     console.log("Clear all markers!");
-    for (var i = 0; i < $scope.nearbyStops.length; i++) {
-      var stop = $scope.nearbyStops[i];
-      var marker = stop.ui.marker;
+    for (var i = 0; i < $scope.ui.markers.length; i++) {
+      var marker = $scope.ui.markers[i];
       marker.setMap(null);
     }
+    $scope.ui.markers = [];
   }
 
   $scope.getProgressBarClass = function(departureTime) {
@@ -173,14 +198,20 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
   };
 
   $scope.highlightStopMark = function(stop) {
-    if (stop && stop.ui && stop.ui.marker && stop.agencyEntry && stop.agencyEntry.mode) {
-      stop.ui.marker.setIcon('/app/images/' + stop.agencyEntry.mode.toLowerCase() + '-marker-icon-highlighted.png')
+    for (var i = 0; i < $scope.ui.markers.length; i++) {
+      if ($scope.ui.markers[i].getTitle() == stop.stopCode) {
+        $scope.ui.markers[i].setIcon('/app/images/' + stop.agencyEntry.mode.toLowerCase() + '-marker-icon-highlighted.png');
+        break;
+      }
     }
   }
 
   $scope.dehighlightStopMark = function(stop) {
-    if (stop && stop.ui && stop.ui.marker && stop.agencyEntry && stop.agencyEntry.mode) {
-      stop.ui.marker.setIcon('/app/images/' + stop.agencyEntry.mode.toLowerCase() + '-marker-icon.png')
+    for (var i = 0; i < $scope.ui.markers.length; i++) {
+      if ($scope.ui.markers[i].getTitle() == stop.stopCode) {
+        $scope.ui.markers[i].setIcon('/app/images/' + stop.agencyEntry.mode.toLowerCase() + '-marker-icon.png');
+        break;
+      }
     }
   }
 }
