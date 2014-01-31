@@ -47,7 +47,7 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
     $scope.safeApply();
 
     var url = '/stops?near=1&lat=' + $scope.map.getCenter().lat()
-      + '&lng=' + $scope.map.getCenter().lng() + '&radius=500000&limit=50&includeAgency=1';
+      + '&lng=' + $scope.map.getCenter().lng() + '&radius=500000&limit=100&includeAgency=1';
     $http({method: 'GET', url: url}).
       success(function(data, status, headers, config) {
         // clear current nearby stops
