@@ -34,6 +34,8 @@ Both client side and server side code are in the same repository: departure-serv
 
 6. Optimize AngularJS code to increase web page performace.
 
+7. Refactor the code, especially the scripts to make them more robust. 
+
 ## My other open source project
 
 1. YXLocationPicker: https://github.com/xyh/YXLocationPicker. It is very easy to use library I wrote for myself because while I was working on iOS project, there always a need to let user "pick" an location. It can retrieve the location user want to input through address inputting with autocompletion and suggestion, or pin to the right location on map, or combination of both. And it will return both address (as a string) and a location (as a coordinate).
