@@ -28,6 +28,8 @@ Both client side and server side code are in the same repository: departure-serv
 
 3. More features. Now the app isn't very useful. There are lot of great features that can be added to make it useful. 
 
+4. Better way to manage MongoDB connection.
+
 ## My other open source project
 
 1. YXLocationPicker: https://github.com/xyh/YXLocationPicker. It is very easy to use library I wrote for myself because while I was working on iOS project, there always a need to let user "pick" an location. It can retrieve the location user want to input through address inputting with autocompletion and suggestion, or pin to the right location on map, or combination of both. And it will return both address (as a string) and a location (as a coordinate).
