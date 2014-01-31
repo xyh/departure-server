@@ -18,7 +18,7 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
 
   $scope.mapOptions = {
     center: currentGeolocation.googleLatLng(),
-    zoom: 13,
+    zoom: 14,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   $scope.map = new google.maps.Map(document.getElementById('map_canvas'), $scope.mapOptions);
@@ -60,7 +60,7 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
     $scope.safeApply();
 
     var url = '/stops?near=1&lat=' + $scope.map.getCenter().lat()
-      + '&lng=' + $scope.map.getCenter().lng() + '&radius=100000&limit=100&includeAgency=1';
+      + '&lng=' + $scope.map.getCenter().lng() + '&radius=200000&limit=200&includeAgency=1';
     $http({method: 'GET', url: url}).
       success(function(data, status, headers, config) {
         // clear current nearby stops
