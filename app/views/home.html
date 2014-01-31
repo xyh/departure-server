@@ -1,0 +1,64 @@
+
+<div ng-controller="HomeCtrl" ng-init="initialize()">
+
+  <!-- header -->
+  <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="" style="margin-left: 20px;">
+        <a href="#" class="brand">Departure</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="" style="position: fixed; width: 100%; height: 100%;">
+    <!--<leaflet defaults="map.defaults" center="map.center" markers="map.markers" layers="map.layers"-->
+             <!--marker-zoom-animation="false" height="100%" width="100%"></leaflet>-->
+    <div id="map_canvas" class="map" style="position: fixed; width: 100%; height: 100%;"></div>
+
+    <div id="infoBoard" ng-show="nearbyStops">
+      <div ng-repeat="nearbyStop in nearbyStops" >
+        <div class="stop-cell" id="stopCell{{nearbyStop.stopCode}}" ng-show="stopHasAvailableDepartureTimes(nearbyStop)||settings.showStopsWithNoDepartureTimes">
+          <div class="stop-cell-internal" ng-mouseenter="mouseEnterStopCell(nearbyStop)" ng-mouseleave="mouseLeaveStopCell(nearbyStop)">
+
+            <div class="stop-name">
+              <a ng-click="printStopDeparturesInfo(nearbyStop)" href="#">
+                <img src="/app/images/bus-stop-icon.jpg" alt="" style="width: 30px; height: 30px; display: inline-block"/>
+              </a>
+              {{nearbyStop.name}}
+            </div>
+
+            <div ng-repeat="departureInfo in nearbyStop.departuresInfo">
+              <div ng-show="settings.showStopsWithNoDepartureTimes||departureInfo.departures">
+
+                <div class="stop-departure-route">Route: <span class="stop-departure-route-name">{{departureInfo.route.name}}</span></div>
+                <div ng-hide="departureInfo.departures" class="stop-departure-route-warning">No available departure time.</div>
+                <div ng-repeat="departure in departureInfo.departures track by $index">
+                  <div>
+                    {{departure}} min
+                    <div class="progress" style="height: 12px; margin-bottom: 10px;">
+                      <div class="bar" ng-class="getProgressBarClass(departure)"
+                           style="height: 12px;" ng-style="{width : ( departure*1.2 + '%' ) }"></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="controlPanel">
+      <button type="button" class="btn btn-primary" ng-click="freshNearbyStops()">Re-search current area</button>
+      <button type="button" class="btn btn-primary" ng-click="clearAllMarkers()">Clear all markers</button>
+      <button type="button" class="btn btn-primary" ng-click="settings.showStopsWithNoDepartureTimes=false"
+          ng-show="settings.showStopsWithNoDepartureTimes">Hide stops with no departure time</button>
+      <button type="button" class="btn btn-primary" ng-click="settings.showStopsWithNoDepartureTimes=true"
+              ng-show="!settings.showStopsWithNoDepartureTimes">Show stops with no departure time</button>
+    </div>
+  </div>
+
+</div>

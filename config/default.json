@@ -16,7 +16,8 @@
     "endPoints": {
       "getAgencies": "GetAgencies.aspx",
       "getRoutesForAgencies": "GetRoutesForAgencies.aspx",
-      "getStopsForRoute": "GetStopsForRoute.aspx"
+      "getStopsForRoute": "GetStopsForRoute.aspx",
+      "getNextDeparturesByStopCode": "GetNextDeparturesByStopCode.aspx"
     }
   },
 

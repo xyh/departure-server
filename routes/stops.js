@@ -3,6 +3,7 @@
  */
 
 var dbClinet = require('../db');
+var async = require('async');
 
 exports.findById = function(req, res) {
   var id = req.params.id;
@@ -18,6 +19,7 @@ exports.findAll = function(req, res) {
   var limit = parseInt(req.query.limit) || 100;
   var skip = parseInt(req.query.skip) || 0;
 
+  // nearby
   var near = req.query.near || {};
   var lat = parseFloat(req.query.lat);
   var lng = parseFloat(req.query.lng);
@@ -37,15 +39,38 @@ exports.findAll = function(req, res) {
     }
   }
 
+  // has location
   var hasLocation = req.query.hasLocation;
   if (hasLocation) {
     qs.latitude = qs.latitude || {};
     qs.latitude['$exists'] = true;
   }
 
+  // include agency
+  var includeAgency = req.query.includeAgency;
+
   dbClinet.connect(function(err, db) {
-    db.collection('stop').find(qs).skip(skip).limit(limit).toArray(function(err, docs) {
-      res.end(JSON.stringify(docs));
-    });
+    if (!err && db) {
+      db.collection('stop').find(qs).skip(skip).limit(limit).toArray(function(err, docs) {
+        if (!err && docs) {
+          if (includeAgency) {
+            async.each(docs, function(doc, callback) {
+              db.collection('agency').findOne({_id:doc.agency}, function(err, agency) {
+                if (!err) doc.agencyEntry = agency;
+                callback();
+              })
+            }, function(err) {
+              res.end(JSON.stringify(docs));
+            })
+          } else {
+            res.end(JSON.stringify(docs));
+          }
+        } else {
+          res.end('');
+        }
+      });
+    } else {
+      res.end('');
+    }
   });
 };

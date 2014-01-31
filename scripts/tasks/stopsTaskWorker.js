@@ -127,7 +127,6 @@ var updateStopInStopsJson = function(stopsJson, route, callback) {
       var stop = {
         name: stopJson['$'].name,
         stopCode: stopJson['$'].StopCode,
-        route: route._id,
         agency: route.agency,
         agencyName: route.agencyName
       };

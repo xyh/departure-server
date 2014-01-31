@@ -1,0 +1,54 @@
+/* Will be compiled down to a single stylesheet with your sass files */
+
+#infoBoard {
+    background-color: #f5f5f5;
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    bottom: 20px;
+    width: 280px;
+    overflow-y: scroll;
+    -webkit-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+}
+
+#controlPanel {
+    position: fixed;
+    bottom: 20px;
+    right: 300px;
+    left: 20px;
+    height: 40px;
+}
+
+.stop-cell-internal {
+    padding: 16px;
+    border-bottom-color: #808080;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.stop-cell:hover, .stop-cell.stop-cell-hightlighted {
+    background-color: #add8e6;
+}
+
+.stop-name {
+    font-size: 16;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.stop-departure-route {
+    padding-top: 12px;
+}
+
+.stop-departure-route-name {
+    background-color: #00ccff;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+}
+
+.stop-departure-route-warning {
+    padding-top: 4px;
+}
