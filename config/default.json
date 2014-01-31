@@ -23,21 +23,21 @@
 
   "cronjob": {
     "sync": [
-//      {
-//        "name": "agencies",
-//        "pattern": "0 0 * * * *",
-//        "order": 1
-//      },
-//      {
-//        "name": "routes",
-//        "pattern": "0 0 * * * *",
-//        "order": 2
-//      },
-//      {
-//        "name": "stops",
-//        "pattern": "0 0 * * * *",
-//        "order": 3
-//      },
+      {
+        "name": "agencies",
+        "pattern": "0 0 * * * *",
+        "order": 1
+      },
+      {
+        "name": "routes",
+        "pattern": "0 0 * * * *",
+        "order": 2
+      },
+      {
+        "name": "stops",
+        "pattern": "0 0 * * * *",
+        "order": 3
+      },
       {
         "name": "stopsLocation",
         "pattern": "0 0 * * * *",
