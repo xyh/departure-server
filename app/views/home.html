@@ -32,7 +32,10 @@
             <div ng-repeat="departureInfo in nearbyStop.departuresInfo">
               <div ng-show="settings.showStopsWithNoDepartureTimes||departureInfo.departures">
 
-                <div class="stop-departure-route">Route: <span class="stop-departure-route-name">{{departureInfo.route.name}}</span></div>
+                <div class="stop-departure-route">
+                  <span class="stop-departure-route-name">{{departureInfo.route.name}}</span>
+                  <span class="stop-departure-route-direction-name" ng-show="departureInfo.route.directionName">{{departureInfo.route.directionName}}</span>
+                </div>
                 <div ng-hide="departureInfo.departures" class="stop-departure-route-warning">No available departure time.</div>
                 <div ng-repeat="departure in departureInfo.departures track by $index">
                   <div>
