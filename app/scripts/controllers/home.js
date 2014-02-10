@@ -35,7 +35,6 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
   $scope.initialize = function() {
     cfpLoadingBar.start();
 
-//    $scope.freshNearbyStops();
     $scope.notification = 'Start detecting your position...';
     geolocation
       .getLocation()
@@ -70,8 +69,8 @@ function controller($scope, cfpLoadingBar, geolocation, currentGeolocation, $htt
           return (stop.latitude - $scope.map.getCenter().lat()) * (stop.latitude - $scope.map.getCenter().lat())
           + (stop.longitude - $scope.map.getCenter().lng()) * (stop.longitude - $scope.map.getCenter().lng())
         });
-        $scope.freshDepartureTimeOfNearbyStops();
         $scope.setupMarkerForNearbyStops();
+        $scope.freshDepartureTimeOfNearbyStops();
         $scope.notification = 'Successfully get nearby stops info!';
       }).
       error(function(data, status, headers, config) {
