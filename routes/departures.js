@@ -11,8 +11,8 @@ var _ = require('underscore');
 
 var dbClinet = require('../db');
 
-exports.getNextDepaturesByStopCode = function(req, res) {
-  var stopCode = req.query.stopCode;
+var getNextDepaturesByStopCodeInternal = function(query, callback) {
+  var stopCode = query.stopCode;
   if (stopCode) {
     var options = {
       url: realtime511.baseURL + realtime511.endPoints.getNextDeparturesByStopCode,
@@ -29,10 +29,10 @@ exports.getNextDepaturesByStopCode = function(req, res) {
             var agencyListJson = result.RTT.AgencyList[0];
             if (!agencyListJson.Agency) {
               // no prediction available
-              res.end(JSON.stringify({
+              callback(null, {
                 stopCode: stopCode,
                 departures: []
-              }));
+              });
             } else {
               var routeJsons = result.RTT.AgencyList[0].Agency[0].RouteList[0].Route;
               var results = [];
@@ -72,20 +72,34 @@ exports.getNextDepaturesByStopCode = function(req, res) {
                   });
                 }
               }
-              res.end(JSON.stringify({
+              callback(null, {
                 stopCode: stopCode,
                 departures: results
-              }));
+              });
             }
           } else {
-            res.end('{}');
+            callback('Error: ' + err);
           }
         });
+      } else if (error) {
+        callback('Error: ' + error);
       } else {
-        res.end('{}');
+        callback('Status code: ' + response.statusCode);
       }
     });
   } else {
-    res.end('{}');
+    callback('Need stop code.');
   }
+};
+
+exports.getNextDepaturesByStopCodeInternal = getNextDepaturesByStopCodeInternal;
+
+exports.getNextDepaturesByStopCode = function(req, res) {
+  getNextDepaturesByStopCodeInternal(req.query, function(err, res) {
+    if (!err) {
+      res.end(JSON.stringify(res));
+    } else {
+      res.end('');
+    }
+  });
 };

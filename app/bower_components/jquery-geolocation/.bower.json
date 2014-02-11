@@ -1,0 +1,23 @@
+{
+  "name": "jQuery-Geolocation",
+  "description": "jQuery plugin which acts as a simplification of the Geolocation API.",
+  "license": "MIT",
+  "ignore": [
+    "earth.png",
+    "index.html"
+  ],
+  "dependencies": {
+    "jquery": "1.6.0"
+  },
+  "homepage": "https://github.com/manuelbieh/jQuery-Geolocation",
+  "_release": "369725d1c4",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "369725d1c40d4c7fe88946de2b827a37f4598e5d"
+  },
+  "_source": "git://github.com/manuelbieh/jQuery-Geolocation.git",
+  "_target": "*",
+  "_originalSource": "jquery-geolocation",
+  "_direct": true
+}

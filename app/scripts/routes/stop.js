@@ -8,6 +8,7 @@ define([
 
     var StopRouter = Backbone.Router.extend({
         routes: {
+          '': 'home'
         }
 
     });

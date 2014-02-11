@@ -4,6 +4,40 @@
 
 var dbClinet = require('../db');
 var async = require('async');
+var departures = require('./departures');
+
+var includeAgencyForStops = function(stops, callback) {
+  dbClinet.connect(function(err, db) {
+    if (!err && db) {
+      async.each(stops, function(stop, callback) {
+        db.collection('agency').findOne({_id:stop.agency}, function(err, agency) {
+          console.log('Finish one subquery. ' + new Date());
+          if (!err) stop.agencyEntry = agency;
+          callback();
+        })
+      }, function(err) {
+        console.log('All sub query finished. ' + new Date());
+        callback(err, stops);
+      });
+    } else {
+      callback('Database error', stops);
+    }
+  });
+};
+
+var includeDeparturesForStops = function(stops, callback) {
+  async.each(stops, function(stop, callback) {
+    departures.getNextDepaturesByStopCodeInternal({ stopCode: stop.stopCode }, function(err, res) {
+      if (!err) {
+        stop.departuresEntry = res.departures;
+      }
+      callback();
+    })
+  }, function(err) {
+    console.log('All sub query finished. ' + new Date());
+    callback(err, stops);
+  });
+};
 
 exports.findById = function(req, res) {
   var id = req.params.id;
@@ -49,6 +83,9 @@ exports.findAll = function(req, res) {
   // include agency
   var includeAgency = req.query.includeAgency;
 
+  // include departure info
+  var includeDepartures = req.query.includeDepartures;
+
   console.log('Start query all stops...' + new Date());
   dbClinet.connect(function(err, db) {
     if (!err && db) {
@@ -56,20 +93,29 @@ exports.findAll = function(req, res) {
       db.collection('stop').find(qs).skip(skip).limit(limit).toArray(function(err, docs) {
         console.log('Got all stops with docs ' + JSON.stringify(docs) + ' and err ' + err + '. ' + new Date());
         if (!err && docs) {
-          if (includeAgency) {
-            async.each(docs, function(doc, callback) {
-              db.collection('agency').findOne({_id:doc.agency}, function(err, agency) {
-                console.log('Finish one subquery. ' + new Date());
-                if (!err) doc.agencyEntry = agency;
-                callback();
-              })
-            }, function(err) {
-              console.log('All sub query finished. ' + new Date());
-              res.end(JSON.stringify(docs));
-            })
-          } else {
+
+          async.series([
+            function(callback){
+              /* include agency */
+              if (includeAgency) {
+                includeAgencyForStops(docs, function(err, res) {
+                  docs = res;
+                  callback(null);
+                });
+              } else callback(null);
+            },
+            function(callback){
+              /* include departure info */
+              if (includeDepartures) {
+                includeDeparturesForStops(docs, function(err, res) {
+                  docs = res;
+                  callback(null);
+                });
+              } else callback(null);
+            }
+          ], function(err, results){
             res.end(JSON.stringify(docs));
-          }
+          });
         } else {
           res.end('');
         }
